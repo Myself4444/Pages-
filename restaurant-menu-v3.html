@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Spice Garden — Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0C0804;
+  --bg2:#130D06;
+  --card:#1C1208;
+  --card2:#221508;
+  --gold:#C8941A;
+  --gold2:#F0B429;
+  --gold3:#FFD166;
+  --cream:#F5EDD8;
+  --muted:#7A6545;
+  --border:rgba(200,148,26,0.12);
+  --border2:rgba(200,148,26,0.28);
+  --green:#22C55E;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Jost',sans-serif;
+  background:var(--bg);
+  color:var(--cream);
+  max-width:430px;
+  margin:0 auto;
+  overflow-x:hidden;
+  padding-bottom:80px;
+}
+
+/* COVER */
+.cover{position:relative;height:260px;overflow:hidden;background:#1a0f05;}
+.cover-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.45);display:block;}
+.cover-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(12,8,4,0.1) 0%,rgba(12,8,4,0.98) 100%);
+}
+.cover-info{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 22px;}
+.open-dot{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.35);
+  color:#4ADE80;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;padding:3px 10px;border-radius:50px;margin-bottom:10px;
+}
+.open-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.resto-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:700;color:#fff;line-height:1;margin-bottom:4px;
+}
+.resto-sub{
+  font-size:0.82rem;color:rgba(255,255,255,0.5);
+  font-style:italic;font-family:'Cormorant Garamond',serif;margin-bottom:10px;
+}
+.resto-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.meta-item{font-size:0.74rem;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:4px;}
+.meta-item b{color:var(--gold3);}
+
+/* STATS */
+.stats{
+  display:flex;background:var(--card2);
+  border-bottom:1px solid var(--border);
+}
+.stat{flex:1;text-align:center;padding:13px 8px;}
+.stat+.stat{border-left:1px solid var(--border);}
+.stat-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:700;color:var(--gold2);
+}
+.stat-l{font-size:0.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:1px;}
+
+/* CATS */
+.cats{
+  position:sticky;top:0;z-index:50;
+  background:rgba(12,8,4,0.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;scrollbar-width:none;
+}
+.cats::-webkit-scrollbar{display:none;}
+.cat{
+  flex-shrink:0;padding:13px 16px;border:none;
+  background:transparent;color:var(--muted);
+  font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;position:relative;transition:color .2s;
+}
+.cat.on{color:var(--gold2);}
+.cat.on::after{
+  content:'';position:absolute;bottom:0;left:12px;right:12px;
+  height:2px;background:var(--gold2);border-radius:2px;
+}
+
+/* SECTION */
+.sec{padding:22px 14px 4px;}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;font-weight:600;font-style:italic;color:var(--gold2);
+  white-space:nowrap;
+}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-n{font-size:0.7rem;color:var(--muted);white-space:nowrap;}
+
+/* WIDE CARD */
+.wide{
+  border-radius:16px;overflow:hidden;margin-bottom:10px;
+  border:1px solid var(--border2);cursor:pointer;
+  transition:border-color .25s, transform .2s;
+  background:var(--card);
+  animation:up .4s ease both;
+}
+.wide:hover{border-color:var(--gold);transform:scale(1.01);}
+@keyframes up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.wide-img{height:170px;overflow:hidden;position:relative;}
+.wide-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block;}
+.wide:hover .wide-img img{transform:scale(1.04);}
+.wide-img-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(12,8,4,0.9) 0%,transparent 55%);
+}
+.wide-flag{
+  position:absolute;top:10px;left:10px;
+  font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:50px;
+  letter-spacing:0.04em;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;
+}
+.wide-price-ov{
+  position:absolute;bottom:10px;right:12px;
+  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:#fff;
+}
+.wide-body{padding:12px 14px 16px;}
+.wide-name{font-weight:700;font-size:0.95rem;margin-bottom:4px;}
+.wide-desc{font-size:0.76rem;color:var(--muted);line-height:1.55;}
+.wide-tags{display:flex;gap:5px;margin-top:10px;}
+
+/* NORMAL CARD */
+.item{
+  display:flex;border-radius:14px;overflow:hidden;margin-bottom:9px;
+  border:1px solid var(--border);cursor:pointer;
+  background:var(--card);transition:border-color .2s,transform .2s;
+  animation:up .4s ease both;
+}
+.item:hover{border-color:var(--border2);transform:translateX(3px);}
+.item-img{width:100px;flex-shrink:0;position:relative;overflow:hidden;}
+.item-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.item:hover .item-img img{transform:scale(1.06);}
+.item-img-shade{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,transparent 55%,var(--card));
+}
+.item-flag{
+  position:absolute;top:6px;left:6px;
+  font-size:0.58rem;font-weight:700;padding:2px 6px;border-radius:50px;
+}
+.f-pop{background:rgba(200,148,26,0.9);color:#000;}
+.f-new{background:rgba(34,197,94,0.9);color:#000;}
+.f-hot{background:rgba(239,68,68,0.9);color:#fff;}
+.item-body{flex:1;padding:12px 12px 12px 8px;display:flex;flex-direction:column;justify-content:space-between;}
+.item-name{font-weight:600;font-size:0.9rem;margin-bottom:3px;}
+.item-desc{font-size:0.73rem;color:var(--muted);line-height:1.5;flex:1;}
+.item-bot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.item-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:700;color:var(--gold2);
+}
+.tags{display:flex;gap:4px;}
+.tag{font-size:0.58rem;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid;}
+.tv{color:#4ADE80;border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.07);}
+.ts{color:#F87171;border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.07);}
+
+/* INFO */
+.info{margin:8px 14px 0;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.irow{display:flex;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid var(--border);}
+.irow:last-child{border-bottom:none;}
+.iico{width:32px;height:32px;border-radius:9px;background:rgba(200,148,26,0.08);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+.ilbl{font-size:0.66rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1px;}
+.ival{font-size:0.83rem;color:var(--cream);}
+
+.powered{text-align:center;padding:18px;font-size:0.7rem;color:var(--muted);}
+.powered a{color:var(--gold);text-decoration:none;font-weight:700;}
+
+/* WA FIXED */
+.wa-wrap{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;
+  background:rgba(12,8,4,0.96);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  padding:12px 16px;z-index:80;
+}
+.wa-btn{
+  width:100%;padding:15px;border-radius:14px;
+  background:#25D366;color:#fff;
+  font-family:'Jost',sans-serif;font-weight:700;font-size:0.95rem;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 4px 20px rgba(37,211,102,0.35);
+  transition:all .2s;
+}
+.wa-btn:active{transform:scale(0.98);}
+.wa-ico{width:20px;height:20px;fill:#fff;flex-shrink:0;}
+
+/* MODAL */
+.ov{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);
+  align-items:flex-end;
+}
+.ov.on{display:flex;animation:fi .18s ease;}
+@keyframes fi{from{opacity:0;}to{opacity:1;}}
+.mbox{
+  background:var(--card2);border-radius:24px 24px 0 0;
+  width:100%;max-width:430px;overflow:hidden;
+  border-top:1px solid var(--border2);
+  animation:su .32s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes su{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.m-img{height:210px;overflow:hidden;position:relative;}
+.m-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.m-img-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--card2) 0%,transparent 55%);}
+.m-body{padding:0 20px 28px;}
+.m-handle{width:34px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 14px;}
+.m-name{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;margin-bottom:6px;}
+.m-desc{font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:14px;}
+.m-price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--gold2);margin-bottom:20px;}
+.m-wa{
+  width:100%;padding:15px;border-radius:14px;
+  background:#25D366;color:#fff;
+  font-family:'Jost',sans-serif;font-weight:700;font-size:0.95rem;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 4px 18px rgba(37,211,102,0.35);
+  margin-bottom:9px;transition:opacity .2s;
+}
+.m-wa:hover{opacity:0.9;}
+.m-close{
+  width:100%;padding:12px;border-radius:14px;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);font-family:'Jost',sans-serif;
+  font-weight:600;font-size:0.88rem;cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <img class="cover-img"
+    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80"
+    alt="Spice Garden Restaurant"
+    onerror="this.src='https://source.unsplash.com/800x400/?restaurant,indian-food'"/>
+  <div class="cover-grad"></div>
+  <div class="cover-info">
+    <div class="open-dot">Open Now</div>
+    <div class="resto-name">Spice Garden</div>
+    <div class="resto-sub">Authentic Indian & Asian Cuisine</div>
+    <div class="resto-meta">
+      <span class="meta-item">⭐ <b>4.8</b> (320 reviews)</span>
+      <span class="meta-item">🕐 9am – 11pm</span>
+      <span class="meta-item">🚚 Free over $30</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">4.8★</div><div class="stat-l">Rating</div></div>
+  <div class="stat"><div class="stat-n">320+</div><div class="stat-l">Reviews</div></div>
+  <div class="stat"><div class="stat-n">25 min</div><div class="stat-l">Delivery</div></div>
+  <div class="stat"><div class="stat-n">$15</div><div class="stat-l">Min Order</div></div>
+</div>
+
+<!-- CATS -->
+<div class="cats">
+  <button class="cat on" onclick="go('all',this)">All</button>
+  <button class="cat" onclick="go('starters',this)">Starters</button>
+  <button class="cat" onclick="go('mains',this)">Main Course</button>
+  <button class="cat" onclick="go('biryani',this)">Biryani</button>
+  <button class="cat" onclick="go('breads',this)">Breads</button>
+  <button class="cat" onclick="go('drinks',this)">Drinks</button>
+  <button class="cat" onclick="go('desserts',this)">Desserts</button>
+</div>
+
+<!-- ── STARTERS ── -->
+<div class="sec" data-cat="starters" id="sec-starters">
+  <div class="sec-head">
+    <div class="sec-title">Starters</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">6 items</div>
+  </div>
+
+  <div class="wide" onclick="show('Chicken Tikka','Tender chicken thighs marinated 24 hours in yogurt, garlic, ginger & aromatic spices. Char-grilled in a clay tandoor for that signature smoky flavour. Served with mint chutney & onion salad.','$9.00','https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=700&auto=format&fit=crop&q=80')">
+    <div class="wide-img">
+      <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=700&auto=format&fit=crop&q=80" alt="Chicken Tikka" loading="lazy"/>
+      <div class="wide-img-grad"></div>
+      <div class="wide-flag">⭐ Chef's Signature</div>
+      <div class="wide-price-ov">$9.00</div>
+    </div>
+    <div class="wide-body">
+      <div class="wide-name">Chicken Tikka</div>
+      <div class="wide-desc">24-hour marinated chicken, char-grilled in clay tandoor. Smoky, tender & perfectly spiced.</div>
+      <div class="wide-tags"><span class="tag ts">🌶 Spicy</span></div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Vegetable Samosa (2 pcs)','Hand-crafted crispy pastry shells filled with spiced potatoes, green peas & coriander. Deep-fried golden. Served with tamarind & mint chutneys.','$4.50','https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80" alt="Samosa" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">⭐ Popular</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Vegetable Samosa (2 pcs)</div>
+      <div class="item-desc">Crispy pastry with spiced potatoes & peas. With tamarind chutney.</div>
+      <div class="item-bot">
+        <div class="item-price">$4.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Paneer Tikka','Fresh cottage cheese cubes & bell peppers marinated in spiced yogurt, skewered & grilled in tandoor. Golden on the outside, soft inside. Served with mint chutney.','$8.50','https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&auto=format&fit=crop&q=80" alt="Paneer Tikka" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-new">NEW</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Paneer Tikka</div>
+      <div class="item-desc">Cottage cheese & peppers marinated in yogurt & spices, tandoor-grilled.</div>
+      <div class="item-bot">
+        <div class="item-price">$8.50</div>
+        <div class="tags"><span class="tag tv">VEG</span><span class="tag ts">🌶</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Seekh Kebab (3 pcs)','Minced lamb mixed with fresh herbs, green chillies & aromatic spices. Shaped on skewers & grilled over charcoal. Served with raita & sliced onions.','$10.00','https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80" alt="Seekh Kebab" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-hot">🌶 Hot</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Seekh Kebab (3 pcs)</div>
+      <div class="item-desc">Spiced minced lamb on skewers, charcoal-grilled. With raita.</div>
+      <div class="item-bot">
+        <div class="item-price">$10.00</div>
+        <div class="tags"><span class="tag ts">🌶 Spicy</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAINS ── -->
+<div class="sec" data-cat="mains" id="sec-mains">
+  <div class="sec-head">
+    <div class="sec-title">Main Course</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">7 items</div>
+  </div>
+
+  <div class="wide" onclick="show('Butter Chicken','Our most-loved dish. Succulent chicken tikka simmered in a velvety tomato-butter sauce with fresh cream, dried fenugreek & a hint of honey. Mild, rich & deeply satisfying. Best with garlic naan.','$14.00','https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=700&auto=format&fit=crop&q=80')">
+    <div class="wide-img">
+      <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=700&auto=format&fit=crop&q=80" alt="Butter Chicken" loading="lazy"/>
+      <div class="wide-img-grad"></div>
+      <div class="wide-flag">🏆 Best Seller</div>
+      <div class="wide-price-ov">$14.00</div>
+    </div>
+    <div class="wide-body">
+      <div class="wide-name">Butter Chicken</div>
+      <div class="wide-desc">Chicken tikka in velvety tomato-butter sauce with cream & fenugreek. Rich, mild & deeply satisfying.</div>
+      <div class="wide-tags"><span class="tag" style="color:var(--gold2);border-color:rgba(200,148,26,0.3);background:rgba(200,148,26,0.08)">⭐ No.1 Dish</span></div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Lamb Rogan Josh','Bone-in lamb shoulder slow-cooked in bold Kashmiri sauce of whole spices, dried chillis & caramelised onions. Fork-tender, deeply aromatic & hearty. Serves 1–2.','$16.00','https://images.unsplash.com/photo-1545247181-516773cae754?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1545247181-516773cae754?w=500&auto=format&fit=crop&q=80" alt="Lamb Rogan Josh" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-hot">🌶 Hot</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Lamb Rogan Josh</div>
+      <div class="item-desc">Bone-in lamb slow-cooked in bold Kashmiri spices. Fork-tender.</div>
+      <div class="item-bot">
+        <div class="item-price">$16.00</div>
+        <div class="tags"><span class="tag ts">🌶 Spicy</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Palak Paneer','Fresh paneer cubes in a smooth, rich spinach gravy spiced with ginger, garlic, cumin & garam masala. Finished with cream. A beloved vegetarian classic.','$12.00','https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500&auto=format&fit=crop&q=80" alt="Palak Paneer" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">⭐ Popular</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Palak Paneer</div>
+      <div class="item-desc">Paneer in smooth spiced spinach gravy, finished with cream.</div>
+      <div class="item-bot">
+        <div class="item-price">$12.00</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Dal Makhani','Black urad lentils & kidney beans slow-cooked overnight in a rich buttery tomato base, finished with cream & smoked butter. Comfort food at its finest.','$11.00','https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=80" alt="Dal Makhani" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Dal Makhani</div>
+      <div class="item-desc">Black lentils slow-cooked overnight in rich buttery tomato sauce.</div>
+      <div class="item-bot">
+        <div class="item-price">$11.00</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Grilled Sea Bass','Fresh whole sea bass marinated in lemon juice, fresh herbs, garlic & olive oil. Grilled over charcoal to perfection. Served with saffron basmati rice & charred lemon.','$18.00','https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80" alt="Sea Bass" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">👨‍🍳 Chef's Pick</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Grilled Sea Bass</div>
+      <div class="item-desc">Whole sea bass with herbs & lemon, charcoal-grilled. With saffron rice.</div>
+      <div class="item-bot">
+        <div class="item-price">$18.00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BIRYANI ── -->
+<div class="sec" data-cat="biryani" id="sec-biryani">
+  <div class="sec-head">
+    <div class="sec-title">Biryani</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">3 items</div>
+  </div>
+
+  <div class="wide" onclick="show('Chicken Dum Biryani','Aged basmati rice layered with marinated chicken, whole spices & saffron. Sealed in a clay pot & dum-cooked over slow fire for 45 minutes. Topped with caramelised onions & served with cucumber raita.','$15.00','https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=700&auto=format&fit=crop&q=80')">
+    <div class="wide-img">
+      <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=700&auto=format&fit=crop&q=80" alt="Chicken Biryani" loading="lazy"/>
+      <div class="wide-img-grad"></div>
+      <div class="wide-flag">🏆 House Speciality</div>
+      <div class="wide-price-ov">$15.00</div>
+    </div>
+    <div class="wide-body">
+      <div class="wide-name">Chicken Dum Biryani</div>
+      <div class="wide-desc">Aged basmati & marinated chicken, sealed & dum-cooked 45 mins. Saffron, caramelised onions & raita.</div>
+      <div class="wide-tags"><span class="tag ts">🌶 Spicy</span></div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Vegetable Biryani','Seasonal vegetables & fresh paneer cooked with aged basmati, whole spices & saffron strands. Topped with crispy fried onions. Served with cucumber raita.','$12.00','https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=500&auto=format&fit=crop&q=80" alt="Veg Biryani" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Vegetable Biryani</div>
+      <div class="item-desc">Seasonal vegetables & paneer with basmati & saffron. With raita.</div>
+      <div class="item-bot">
+        <div class="item-price">$12.00</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BREADS ── -->
+<div class="sec" data-cat="breads" id="sec-breads">
+  <div class="sec-head">
+    <div class="sec-title">Breads</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">4 items</div>
+  </div>
+
+  <div class="item" onclick="show('Garlic Naan','Soft leavened flatbread baked in our clay tandoor at 900°C. Generously topped with butter, minced fresh garlic & chopped coriander. Perfect with any curry.','$3.50','https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80" alt="Garlic Naan" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">⭐ Popular</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Garlic Naan</div>
+      <div class="item-desc">Soft tandoor-baked flatbread with butter, garlic & coriander.</div>
+      <div class="item-bot">
+        <div class="item-price">$3.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Cheese Naan','Our garlic naan stuffed with melted mozzarella cheese & finished with more on top. Gooey, indulgent & impossible to resist.','$4.50','https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=500&auto=format&fit=crop&q=80" alt="Cheese Naan" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-new">NEW</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Cheese Naan</div>
+      <div class="item-desc">Garlic naan stuffed with melted mozzarella. Gooey & indulgent.</div>
+      <div class="item-bot">
+        <div class="item-price">$4.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Plain Roti','Thin wholemeal flatbread baked in tandoor. Light, healthy & perfect for scooping up rich curries.','$2.50','https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80" alt="Roti" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Plain Roti</div>
+      <div class="item-desc">Thin wholemeal flatbread baked in tandoor. Light & healthy.</div>
+      <div class="item-bot">
+        <div class="item-price">$2.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DRINKS ── -->
+<div class="sec" data-cat="drinks" id="sec-drinks">
+  <div class="sec-head">
+    <div class="sec-title">Drinks</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">5 items</div>
+  </div>
+
+  <div class="item" onclick="show('Mango Lassi','Thick chilled yogurt drink blended with real Alphonso mango pulp, a pinch of cardamom & honey. Refreshing, filling & naturally sweet.','$5.50','https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=500&auto=format&fit=crop&q=80" alt="Mango Lassi" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">⭐ Popular</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Mango Lassi</div>
+      <div class="item-desc">Thick yogurt blended with Alphonso mango, cardamom & honey.</div>
+      <div class="item-bot">
+        <div class="item-price">$5.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Masala Chai','Strong Assam tea brewed with fresh ginger, green cardamom pods, cinnamon bark & whole milk. Served hot. Classic Indian street-style chai.','$3.00','https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=500&auto=format&fit=crop&q=80" alt="Masala Chai" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Masala Chai</div>
+      <div class="item-desc">Strong Assam tea with ginger, cardamom & cinnamon. Served hot.</div>
+      <div class="item-bot">
+        <div class="item-price">$3.00</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Fresh Lime Soda','Freshly squeezed lime with chilled soda water & a pinch of black salt. Tell us sweet, salted or mixed when ordering.','$3.50','https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&auto=format&fit=crop&q=80" alt="Lime Soda" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Fresh Lime Soda</div>
+      <div class="item-desc">Squeezed lime with chilled soda. Sweet, salted or mixed.</div>
+      <div class="item-bot">
+        <div class="item-price">$3.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DESSERTS ── -->
+<div class="sec" data-cat="desserts" id="sec-desserts">
+  <div class="sec-head">
+    <div class="sec-title">Desserts</div>
+    <div class="sec-line"></div>
+    <div class="sec-n">4 items</div>
+  </div>
+
+  <div class="wide" onclick="show('Gulab Jamun (3 pcs)','Melt-in-your-mouth milk solid dumplings, deep-fried golden & soaked in warm rose-scented sugar syrup infused with cardamom & saffron. Served with a scoop of vanilla ice cream.','$6.00','https://images.unsplash.com/photo-1601303516534-bf4a8f2e9503?w=700&auto=format&fit=crop&q=80')">
+    <div class="wide-img">
+      <img src="https://images.unsplash.com/photo-1601303516534-bf4a8f2e9503?w=700&auto=format&fit=crop&q=80" alt="Gulab Jamun" loading="lazy"/>
+      <div class="wide-img-grad"></div>
+      <div class="wide-flag">⭐ Most Loved</div>
+      <div class="wide-price-ov">$6.00</div>
+    </div>
+    <div class="wide-body">
+      <div class="wide-name">Gulab Jamun (3 pcs)</div>
+      <div class="wide-desc">Golden milk dumplings in warm rose-saffron syrup. Served with vanilla ice cream.</div>
+      <div class="wide-tags"><span class="tag tv">VEG</span></div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Chocolate Lava Cake','Warm dark chocolate fondant with a molten centre that flows when you cut it. Served with Madagascan vanilla bean ice cream & a dusting of cocoa powder.','$7.50','https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80" alt="Lava Cake" loading="lazy"/>
+      <div class="item-img-shade"></div>
+      <div class="item-flag f-pop">👨‍🍳 Chef's Pick</div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Chocolate Lava Cake</div>
+      <div class="item-desc">Warm chocolate fondant, molten centre & vanilla ice cream.</div>
+      <div class="item-bot">
+        <div class="item-price">$7.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item" onclick="show('Mango Kulfi','Traditional Indian ice cream made with reduced milk, real mango pulp & cardamom. Denser, creamier & more intense than regular ice cream. Served on a stick.','$5.50','https://images.unsplash.com/photo-1488900128323-21503983a07e?w=500&auto=format&fit=crop&q=80')">
+    <div class="item-img">
+      <img src="https://images.unsplash.com/photo-1488900128323-21503983a07e?w=500&auto=format&fit=crop&q=80" alt="Kulfi" loading="lazy"/>
+      <div class="item-img-shade"></div>
+    </div>
+    <div class="item-body">
+      <div class="item-name">Mango Kulfi</div>
+      <div class="item-desc">Traditional Indian ice cream with real mango & cardamom. On a stick.</div>
+      <div class="item-bot">
+        <div class="item-price">$5.50</div>
+        <div class="tags"><span class="tag tv">VEG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO -->
+<div class="info">
+  <div class="irow"><div class="iico">📍</div><div><div class="ilbl">Location</div><div class="ival">12 Curry Lane, Food Street, Mumbai 400001</div></div></div>
+  <div class="irow"><div class="iico">🕐</div><div><div class="ilbl">Hours</div><div class="ival">Monday – Sunday: 9:00 AM – 11:00 PM</div></div></div>
+  <div class="irow"><div class="iico">📞</div><div><div class="ilbl">Reservations</div><div class="ival">+91 98765 43210</div></div></div>
+  <div class="irow"><div class="iico">🚚</div><div><div class="ilbl">Delivery</div><div class="ival">Within 5km · Min $15 · Free above $30</div></div></div>
+</div>
+
+<div class="powered">Menu by <a href="#">Shoply</a> · Want this for your restaurant? <a href="#">Start free →</a></div>
+
+<!-- WA FIXED -->
+<div class="wa-wrap">
+  <button class="wa-btn" onclick="openWA()">
+    <svg class="wa-ico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Order via WhatsApp
+  </button>
+</div>
+
+<!-- MODAL -->
+<div class="ov" id="ov">
+  <div class="mbox">
+    <div class="m-img">
+      <img id="mI" src="" alt="" loading="lazy"/>
+      <div class="m-img-grad"></div>
+    </div>
+    <div class="m-body">
+      <div class="m-handle"></div>
+      <div class="m-name" id="mN"></div>
+      <div class="m-desc" id="mD"></div>
+      <div class="m-price" id="mP"></div>
+      <button class="m-wa" onclick="orderThis()">
+        <svg class="wa-ico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order This Item
+      </button>
+      <button class="m-close" onclick="close()">Back to Menu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WA='919876543210';
+let cur={};
+
+function show(n,d,p,img){
+  cur={n,d,p};
+  document.getElementById('mN').textContent=n;
+  document.getElementById('mD').textContent=d;
+  document.getElementById('mP').textContent=p;
+  document.getElementById('mI').src=img;
+  document.getElementById('ov').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function close(){
+  document.getElementById('ov').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.getElementById('ov').addEventListener('click',function(e){if(e.target===this)close();});
+
+function orderThis(){
+  const msg=encodeURIComponent(`Hi! I'd like to order *${cur.n}* (${cur.p}) from Spice Garden. Is it available?`);
+  window.open(`https://wa.me/${WA}?text=${msg}`,'_blank');
+}
+function openWA(){
+  const msg=encodeURIComponent('Hi! I would like to place an order at Spice Garden. Can you share the menu availability?');
+  window.open(`https://wa.me/${WA}?text=${msg}`,'_blank');
+}
+function go(cat,btn){
+  document.querySelectorAll('.cat').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('[data-cat]').forEach(s=>{
+    s.style.display=(cat==='all'||s.dataset.cat===cat)?'block':'none';
+  });
+  if(cat!=='all'){
+    const el=document.getElementById('sec-'+cat);
+    if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  }
+}
+</script>
+</body>
+</html>
