@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin & Win Wheel - Try Your Luck!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .wheel-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .wheel {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: spin-animation 0.3s ease-out;
+        }
+
+        .wheel.spinning {
+            animation: spin 4s ease-out forwards;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(3600deg);
+            }
+        }
+
+        @keyframes spin-animation {
+            from {
+                transform: rotate(0deg);
+            }
+        }
+
+        .wheel-section {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 50%, 50% 0%, 100% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid #667eea;
+            z-index: 10;
+        }
+
+        .spin-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            margin: 30px 0;
+        }
+
+        .spin-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .spin-button:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .result-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-box.win {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .result-box.lose {
+            background: linear-gradient(135deg, #f44336, #da190b);
+            color: white;
+            box-shadow: 0 10px 30px rgba(244, 67, 54, 0.3);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .result-message {
+            font-size: 1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 12px;
+            flex: 1;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .wheel {
+                width: 240px;
+                height: 240px;
+            }
+
+            .wheel-section {
+                font-size: 0.75rem;
+            }
+
+            .spin-button {
+                padding: 14px 40px;
+                font-size: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎡 Spin & Win</h1>
+        <p class="subtitle">Test your luck and win amazing prizes!</p>
+
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="wheel"></div>
+        </div>
+
+        <button class="spin-button" id="spinButton" onclick="spinWheel()">SPIN THE WHEEL</button>
+
+        <div class="result-box" id="resultBox">
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-message" id="resultMessage"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Spins</div>
+                <div class="stat-value" id="totalSpins">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Wins</div>
+                <div class="stat-value" id="wins">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Losses</div>
+                <div class="stat-value" id="losses">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wheelSegments = [
+            { label: 'WIN 🎉', color: '#4CAF50', isWin: true },
+            { label: 'LOSE 😢', color: '#f44336', isWin: false },
+            { label: 'WIN 🎉', color: '#4CAF50', isWin: true },
+            { label: 'LOSE 😢', color: '#f44336', isWin: false },
+            { label: 'WIN 🎉', color: '#4CAF50', isWin: true },
+            { label: 'LOSE 😢', color: '#f44336', isWin: false },
+            { label: 'WIN 🎉', color: '#4CAF50', isWin: true },
+            { label: 'LOSE 😢', color: '#f44336', isWin: false },
+        ];
+
+        let isSpinning = false;
+        let stats = {
+            totalSpins: 0,
+            wins: 0,
+            losses: 0
+        };
+
+        // Initialize wheel
+        function initWheel() {
+            const wheel = document.getElementById('wheel');
+            wheel.innerHTML = '';
+            const segmentAngle = 360 / wheelSegments.length;
+
+            wheelSegments.forEach((segment, index) => {
+                const div = document.createElement('div');
+                div.className = 'wheel-section';
+                div.style.background = segment.color;
+                div.style.transform = `rotate(${index * segmentAngle}deg)`;
+                div.style.clip = `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.sin((segmentAngle / 2) * Math.PI / 180)}% ${50 - 50 * Math.cos((segmentAngle / 2) * Math.PI / 180)}%)`;
+                div.textContent = segment.label;
+                wheel.appendChild(div);
+            });
+        }
+
+        // Spin wheel function
+        function spinWheel() {
+            if (isSpinning) return;
+
+            isSpinning = true;
+            document.getElementById('spinButton').disabled = true;
+            document.getElementById('resultBox').classList.remove('show', 'win', 'lose');
+
+            const wheel = document.getElementById('wheel');
+            wheel.classList.remove('spinning');
+
+            // Trigger reflow to restart animation
+            void wheel.offsetWidth;
+
+            const randomSpin = Math.floor(Math.random() * 360) + 1440;
+            wheel.style.animation = 'none';
+
+            setTimeout(() => {
+                wheel.classList.add('spinning');
+                wheel.style.transform = `rotate(${randomSpin}deg)`;
+            }, 10);
+
+            setTimeout(() => {
+                const normalizedRotation = randomSpin % 360;
+                const segmentAngle = 360 / wheelSegments.length;
+                const resultIndex = Math.floor((normalizedRotation + segmentAngle / 2) / segmentAngle) % wheelSegments.length;
+                const result = wheelSegments[resultIndex];
+
+                showResult(result);
+                updateStats(result.isWin);
+
+                isSpinning = false;
+                document.getElementById('spinButton').disabled = false;
+            }, 4000);
+        }
+
+        // Show result function
+        function showResult(result) {
+            const resultBox = document.getElementById('resultBox');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+
+            resultTitle.textContent = result.isWin ? '🎊 You Won! 🎊' : '😢 Better Luck Next Time! 😢';
+            resultMessage.textContent = result.isWin ? 'Congratulations! You are a winner!' : 'Keep trying, you\'ll win next time!';
+
+            resultBox.classList.add('show', result.isWin ? 'win' : 'lose');
+        }
+
+        // Update stats
+        function updateStats(isWin) {
+            stats.totalSpins++;
+            if (isWin) {
+                stats.wins++;
+            } else {
+                stats.losses++;
+            }
+
+            document.getElementById('totalSpins').textContent = stats.totalSpins;
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('losses').textContent = stats.losses;
+
+            // Save to localStorage
+            localStorage.setItem('wheelStats', JSON.stringify(stats));
+        }
+
+        // Load stats from localStorage
+        function loadStats() {
+            const savedStats = localStorage.getItem('wheelStats');
+            if (savedStats) {
+                stats = JSON.parse(savedStats);
+                document.getElementById('totalSpins').textContent = stats.totalSpins;
+                document.getElementById('wins').textContent = stats.wins;
+                document.getElementById('losses').textContent = stats.losses;
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initWheel();
+            loadStats();
+        });
+    </script>
+</body>
+</html>
